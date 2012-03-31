@@ -7,7 +7,7 @@
 var evenFilter = function (array) {
 
 	function isEven(elem) {
-		return elem%2==0;
+		return elem % 2 == 0;
 	}
 
 	return array.filter( isEven );
@@ -44,10 +44,41 @@ function sumAllPositive(array) {
 			)
 			.reduce(
 				function (prev,curr){
-					return prev+curr;
+					return prev + curr;
 				}
 			);
 
 }
 
 sumAllPositive([-1,2,-3,4,-5,6,-7,8,-9,10]);
+
+/*
+	Scrivere una funzione chiamata apply
+	questa funzione prende come parametro una coppia di funzioni
+	e restituiesce il valore della seconda applicata alla prima
+*/
+
+var apply = function (array) {
+	// Controllo solo se la funzione più esterna è esplicitata,
+	//il controllo di quella più interna è fatto nelle funzioni sotto
+	if (typeof array[0] != "function")
+		return array[1]();
+	return array[0](array[1]);
+}
+
+function funzioneA(fun) {
+	if (typeof fun != "function")
+		return "Questa è la funzione A";
+	return "Questa è la funzione A che chiama la prossima funzione: " + fun();
+}
+
+function funzioneB(fun) {
+	if (typeof fun != "function")
+		return "Questa è la funzione B";
+	return "Questa è la funzione B che chiama la prossima funzione: " + fun();
+}
+
+apply([funzioneA,funzioneB]);
+apply([funzioneB,funzioneA]);
+apply([funzioneA]);
+apply([,funzioneB]);
