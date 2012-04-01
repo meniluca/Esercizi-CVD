@@ -59,23 +59,23 @@ sumAllPositive([-1,2,-3,4,-5,6,-7,8,-9,10]);
 */
 
 var apply = function (array) {
-	// Controllo solo se la funzione più esterna è esplicitata,
-	//il controllo di quella più interna è fatto nelle funzioni sotto
-	if (typeof array[0] != "function")
+	if (typeof array[0] == "undefined")
 		return array[1]();
-	return array[0](array[1]);
+	if (typeof array[1] == "undefined")
+		return array[0]();
+	return array[0](array[1]());
 }
 
 function funzioneA(fun) {
-	if (typeof fun != "function")
+	if (typeof fun == "undefined")
 		return "Questa è la funzione A";
-	return "Questa è la funzione A che chiama la prossima funzione: " + fun();
+	return "Questa è la funzione A che chiama la prossima funzione: " + fun;
 }
 
 function funzioneB(fun) {
-	if (typeof fun != "function")
+	if (typeof fun == "undefined")
 		return "Questa è la funzione B";
-	return "Questa è la funzione B che chiama la prossima funzione: " + fun();
+	return "Questa è la funzione B che chiama la prossima funzione: " + fun;
 }
 
 apply([funzioneA,funzioneB]);
