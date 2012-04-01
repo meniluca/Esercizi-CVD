@@ -99,3 +99,81 @@ var applyAll = function (fun, array){
 
 applyAll(Math.cos,[Math.cos(1),Math.sin(1),Math.cos(2),Math.sin(2),Math.cos(3),Math.sin(3)])
 
+
+/*
+	Scrivere una funzione che preso come parametro una funzione 'fun'
+	restituisca una funzione che preso un array come parametro applica 'fun' a tutti gli elementi dell'array
+	applyAll2(g)(array) => return [g(array[0]),g(array[1]),g(array[2]),....]
+*/
+
+var applyAll2 = function(fun) {
+	return function (array) {
+		return array.map(
+			function (elem) {
+				return fun(elem);
+			}
+		);
+	};
+}
+
+applyAll2(Math.cos)([Math.PI,0,1,Math.P1/2]);
+
+
+/*
+	Scrivere una funzione che presa una coppia di funzioni riporti la funzione composta
+	return function f(g(elem))
+*/
+
+var apply2 = function (pair) {
+	return function (elem) {
+		return pair[0](pair[1](elem));
+	};
+}
+
+// sincos = function sin(cos(x))
+// sincos(1) => sin(cos(1))
+var sincos = apply2([Math.sin,Math.cos]);
+sincos;
+sincos(1);
+
+
+/*
+	Scrivere una punzione che prende come input un array di funzioni e restituisce la funzione composta
+	da tutte le funzioni dell'array
+	applyN([sin,cos,tan]) => function sin(cos(tan()))
+*/
+
+var applyN = function (array) {
+	return array.reduceRight(
+		function (prev,curr) {
+			return function (elem) {
+				return curr(prev(elem));
+			}
+		}
+	);
+}
+
+var sinCosTan = applyN([Math.sin,Math.cos,Math.tan]);
+sinCosTan;
+sinCosTan(1);
+
+
+/*
+	Scrivere una funzione chiamata cons
+	che prende come parametro un valore 'x' restituisce una funzione che prende un array di funzioni
+	e applica a ogni funzione dell'array 'x' restituendo i risultati con un array
+	E' la simmetrica rispetto ad applyAll2
+	cons(val)(arrayFun) => return [arrayFun[0](val),arrayFun[1](val),...]
+*/
+
+var cons = function (val) {
+	return function (array) {
+		return array.map(
+			function (elem) {
+				return elem(val);
+			}
+		);
+	};
+}
+
+cons(1)([Math.sin,Math.cos,Math.tan]);
