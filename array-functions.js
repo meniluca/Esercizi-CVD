@@ -177,3 +177,10 @@ var cons = function (val) {
 }
 
 cons(1)([Math.sin,Math.cos,Math.tan]);
+
+/*
+	Scrivere la funzione distributeLeft
+	funzione che prende una coppia di elementi
+	e applica il primo elemento a ogni elemento del del secondo elemento
+*/
+
