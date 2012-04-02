@@ -184,3 +184,4 @@ cons(1)([Math.sin,Math.cos,Math.tan]);
 	e applica il primo elemento a ogni elemento del del secondo elemento
 */
 
+//TODO
