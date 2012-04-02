@@ -20,3 +20,14 @@ var drawCylinder = function (r,h,n){
 	return mapped;
 	
 };
+
+drawCylinder(2,3,100);
+
+
+/*
+	Funzione che disegna un cilindro pieno
+*/
+
+var drawFullCylinder = function (r,h,n){
+	//TODO
+};
