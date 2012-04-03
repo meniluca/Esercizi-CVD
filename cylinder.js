@@ -28,6 +28,25 @@ drawCylinder(2,3,100);
 	Funzione che disegna un cilindro pieno
 */
 
-var drawFullCylinder = function (r,h,n){
-	//TODO
+var drawFullCylinder = function (r,h,n,m,h){
+
+	var asseY = r;
+	var asseZ = h;
+
+	// definizione dominio
+	var domain = SIMPLEX_GRID([ REPEAT(n)(2*PI/n), REPEAT(m)(asseY/m), REPEAT(h)(asseZ/h) ]);
+
+	var mapping = function(point) {
+		var x = point[0];
+		var y = point[1];
+		var z = point[2];
+
+		return [y*SIN(x), y*COS(x), z];
+	}
+
+	var mapped = MAP(mapping)(domain);
+
+	DRAW(mapped);
+	return mapped;
+
 };
