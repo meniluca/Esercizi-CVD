@@ -20,5 +20,42 @@
 */
 
 /*
-	
+	SIMPLEX_GRID(quotes)
+	Crea una grigli di complessi simpliciali
+	quotes è un array di array per ogni dimensione. Ogni dimensione ha un array con valori positivi e negativi.
+	Valori negativi sono degli spazi vuoti.
 */
+
+var model = SIMPLEX_GRID([[1,-1,1]]);
+DRAW(model);
+HIDE(model);
+
+var model = SIMPLEX_GRID([[2,-1,2],[2,-1,2,-1,2]]);
+DRAW(model);
+HIDE(model);
+
+var model = SIMPLEX_GRID([[2,-1,2],[2],[-1,1]]);
+DRAW(model);
+HIDE(model);
+
+
+/*
+	Uso di REPLICA e REPEAT
+	REPLICA(times)(elems)
+	REPEAT(times)(elems)
+
+*/
+
+REPLICA(3)(1); 				// [1,1,1]
+REPLICA(3)([1,2]);			// [1,2,1,2,1,2]
+REPLICA(2)([1,2],[1]);	 	// [1,2,1,2]
+REPLICA(2)([[2,3,4]]); 		// [ [2,3,4], [2,3,4] ]
+REPLICA(2)([[[2,3]]]);		// [ [[2,3]], [[2,3]] ]
+REPLICA(2)([[5,6],[7,8]]); 	// [ [5,6],[7,8],[5,6],[7,8] ]
+
+REPEAT(3)(1); 				// [1,1,1]
+REPEAT(3)([1,2]);			// [ [1,2],[1,2],[1,2] ]
+REPEAT(2)([1,2],[1]);	 	// [ [1,2],[1,2] ]
+REPEAT(2)([[2,3,4]]); 		// [ [[2,3,4]], [[2,3,4]] ]
+REPEAT(2)([[[2,3]]]);		// [ [[[2,3]]], [[[2,3]]] ]
+REPEAT(2)([[5,6],[7,8]]);	// [ [[5,6],[7,8]], [[5,6],[7,8]] ]

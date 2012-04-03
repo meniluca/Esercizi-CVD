@@ -40,6 +40,6 @@ var countileverFloors = SIMPLEX_GRID([
 ]);
 
 
-var building = STRUCT([pillars,beams,piani,cantileverPillars,cantileverBeams,countileverFloors]);
+var building = STRUCT([pillars,beams,floors,cantileverPillars,cantileverBeams,countileverFloors]);
 
 DRAW(building);
