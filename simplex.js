@@ -43,19 +43,70 @@ HIDE(model);
 	Uso di REPLICA e REPEAT
 	REPLICA(times)(elems)
 	REPEAT(times)(elems)
-
 */
 
-REPLICA(3)(1); 				// [1,1,1]
+REPLICA(3)(1);				// [1,1,1]
 REPLICA(3)([1,2]);			// [1,2,1,2,1,2]
 REPLICA(2)([1,2],[1]);	 	// [1,2,1,2]
 REPLICA(2)([[2,3,4]]); 		// [ [2,3,4], [2,3,4] ]
 REPLICA(2)([[[2,3]]]);		// [ [[2,3]], [[2,3]] ]
 REPLICA(2)([[5,6],[7,8]]); 	// [ [5,6],[7,8],[5,6],[7,8] ]
 
-REPEAT(3)(1); 				// [1,1,1]
+REPEAT(3)(1);				// [1,1,1]
 REPEAT(3)([1,2]);			// [ [1,2],[1,2],[1,2] ]
 REPEAT(2)([1,2],[1]);	 	// [ [1,2],[1,2] ]
 REPEAT(2)([[2,3,4]]); 		// [ [[2,3,4]], [[2,3,4]] ]
 REPEAT(2)([[[2,3]]]);		// [ [[[2,3]]], [[[2,3]]] ]
 REPEAT(2)([[5,6],[7,8]]);	// [ [[5,6],[7,8]], [[5,6],[7,8]] ]
+
+
+/*
+	Primitiva STRUCT:
+	STRUCT(items)
+	Structure together plasm.Model and plasm.Struct.
+	If a transformation is encountered in items, it is applied to all of the following items.
+*/
+
+var cube1 = CUBOID([1,1,1])
+var cube2 = SIMPLEX_GRID([[-0.5,2],[-0.5,2],[2]])
+
+DRAW(cube1);
+DRAW(cube2);
+HIDE(cube1);
+HIDE(cube2);
+
+var biCube = STRUCT([cube1,cube2]);
+DRAW(biCube);
+HIDE(biCube);
+
+
+/*
+	Traslazioni e cambiamenti di scala
+*/
+
+var cube1 = CUBE(3);
+var cube2 = T([0])([1.3])(cube1);
+var struct1 = STRUCT([cube1, cube2]);
+var t = T([1])([1.3]);
+var struct = STRUCT([struct1, t, struct1, t, cube1]); // != STRUCT([struct1, t(struct1), t(cube1) ]);
+DRAW(struct);
+
+
+// Altro esempio
+var cube1 = CUBE(3);
+var cube2 = T([2])([1.5])(cube1);
+var struct1 = STRUCT([cube1, cube2]);
+DRAW(struct1);
+HIDE(struct1);
+var translate = T([1])([2]);
+var struct = STRUCT([struct1, translate, struct1, translate, struct1, translate, CUBE(3), SIMPLEX_GRID([[1],[1],[-3,1]])]);
+DRAW(struct);
+HIDE(struct);
+// è diverso da...
+var struct = STRUCT([struct1, translate(struct1), translate(struct1), translate(CUBE(3)), SIMPLEX_GRID([[1],[1],[-3,1]])]);
+DRAW(struct);
+HIDE(struct);
+// ... che è uguale a:
+var struct = STRUCT([struct1, translate(struct1), SIMPLEX_GRID([[1],[1],[-3,1]])]);
+DRAW(struct);
+HIDE(struct);
