@@ -10,4 +10,5 @@ HIDE(building);
 
 var extrudedBuilding = EXTRUDE([2])(building);
 
-DRAW(extrudedBuilding);
+DRAW(COLOR([1,0.3,0.2,0.5])(extrudedBuilding));
+
