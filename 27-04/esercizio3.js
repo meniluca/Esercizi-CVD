@@ -15,3 +15,13 @@ var curveMapping = BEZIER(S0)(controlpoints);
 var curve = MAP(curveMapping)(domain);
 
 DRAW(curve);
+
+HIDE(curve);
+
+var controlpoints = [[0,0,0],[1,2,1],[3,2,1],[3,0,3],[5,-1,3],[6,1,6]];
+
+var curveMapping = BEZIER(S0)(controlpoints);
+
+var curve = MAP(curveMapping)(domain);
+
+DRAW(curve);
