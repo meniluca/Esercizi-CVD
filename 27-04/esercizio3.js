@@ -1,26 +1,21 @@
 /*
 
-	BEZIER
+	CUBIC_HERMITE
 
-	draw a bezier curve of degree 4 with following control points:
+	draw a cubical hermite curve with the following control points:
+
+	C(0):  (1,0)
+	C(1):  (1,1)
+	C'(0): (1,0)
+	C'(1): (1,1)
 
 */
 
-var domain = INTERVALS(1)(30);
+var domain = INTERVALS(1)(20);
 
-var controlpoints = [[0,0],[1,2],[3,2],[3,0],[5,-1],[6,1]];
+var controlpoints = [[1,0],[1,1],[1,0],[1,1]];
 
-var curveMapping = BEZIER(S0)(controlpoints);
-
-var curve = MAP(curveMapping)(domain);
-
-DRAW(curve);
-
-HIDE(curve);
-
-var controlpoints = [[0,0,0],[1,2,1],[3,2,1],[3,0,3],[5,-1,3],[6,1,6]];
-
-var curveMapping = BEZIER(S0)(controlpoints);
+var curveMapping = CUBIC_HERMITE(S0)(controlpoints);
 
 var curve = MAP(curveMapping)(domain);
 
