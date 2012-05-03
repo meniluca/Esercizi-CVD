@@ -1,15 +1,35 @@
 /*
-	
-	Each curves has its function.
+	###############
+	curvesDrawer.js
+	###############
+
+	Draws curves. Each curve has its function.
 	Each function can draw the respective curve, and optionally
 	its control points and a polyline join them
 
 */
 
+/*
+	PARTS: number used to divide the segment which join curve's points
+	SELECTOR: domain coordinate selector function
+*/
 var PARTS;
 var SELECTOR;
 
-function drawCubicHermite(controlPoints, color, drawPolyline, drawControlPoints) {
+/*
+	FUNCTION: drawCubicHermite
+	Draw a cubic hermite curve, takes an array of control points which first two elements are points
+	and second two are vectors.
+
+	USAGE:
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]]); //draws a black cubic hermite curve
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes, yes); //draws a red curve with polyline and control points
+
+*/
+function drawCubicHermiteCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
 	var color = color || [0,0,0,1];
 	
@@ -34,7 +54,19 @@ function drawCubicHermite(controlPoints, color, drawPolyline, drawControlPoints)
 }
 
 
-function drawBezier(controlPoints, color, drawPolyline, drawControlPoints) {
+/*
+	FUNCTION: drawBezierCurve
+	Draw a Bezier curve, takes an array of control points.
+
+	USAGE:
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]]); //draws a black cubic hermite curve
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes, yes); //draws a red curve with polyline and control points
+
+*/
+function drawBezierCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
 	var color = color || [0,0,0,1];
 	
@@ -59,7 +91,7 @@ function drawBezier(controlPoints, color, drawPolyline, drawControlPoints) {
 }
 
 
-function drawCubicalCardinalSpline(controlPoints, parts, color, selector) {
+function drawCubicalCardinalCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
 	var color = color || [0,0,0,1];
 	
@@ -93,32 +125,39 @@ function drawCubicalCardinalSpline(controlPoints, parts, color, selector) {
 }
 
 
-function drawCubicalUbspline(controlPoints, parts, color, selector) {
+function drawCubicalUbsplineCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
-	var parts = parts || 10;
 	var color = color || [0,0,0,1];
-	var selector = selector || S0;
+	
+	var selector = this.SELECTOR || S0;
+	var parts = this.PARTS || 10;
 
-	var domain = INTERVALS(1)(parts);
+	var struct =STRUCT([]);
 
-	var points = getModelControlPoints(controlPoints);
-	var polyline = POLYLINE(controlPoints);
+	if ( drawControlPoints === "yes" ) {
+		var points = getModelControlPoints(controlPoints);
+		struct = STRUCT([points]);
+	}
+
+	if ( drawPolyline === "yes" ) {
+		var polyline = POLYLINE(controlPoints);
+		struct = STRUCT([struct, polyline]);
+	}
 
 	var firstElem = controlPoints.shift();
 	var lastElem = controlPoints.pop();
 	controlPoints.unshift(firstElem,firstElem);
 	controlPoints.push(lastElem,lastElem);
-
-	console.log(controlPoints);
 	
-	var curve = SPLINE(CUBIC_UBSPLINE(domain))(controlPoints);
-	var curve = COLOR(color)(curve);
+	var curve = SPLINE(CUBIC_UBSPLINE(INTERVALS(1)(parts)))(controlPoints);
+	curve = COLOR(color)(curve);
 
-	var struct = STRUCT([curve, points, polyline]);
+	struct = STRUCT([curve, struct]);
 
 	return DRAW(struct);
 
 }
+
 
 function getModelControlPoints(controlPoints) {
 
