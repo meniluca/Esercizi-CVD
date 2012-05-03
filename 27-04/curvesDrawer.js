@@ -16,10 +16,8 @@ function drawCubicHermite(controlPoints, color, drawPolyline, drawControlPoints)
 	var selector = this.SELECTOR || S0;
 	var parts = this.PARTS || 10;
 
-	var domain = INTERVALS(1)(parts);
-
-	var curve = MAP(CUBIC_HERMITE(selector)(controlPoints))(domain);
-	var curve = COLOR(color)(curve);
+	var curve = MAP(CUBIC_HERMITE(selector)(controlPoints))(INTERVALS(1)(parts));
+	curve = COLOR(color)(curve);
 
 	if ( drawControlPoints === "yes" ) {
 		var points = getModelControlPoints([controlPoints[0],controlPoints[1]]);
@@ -43,10 +41,8 @@ function drawBezier(controlPoints, color, drawPolyline, drawControlPoints) {
 	var selector = this.SELECTOR || S0;
 	var parts = this.PARTS || 10;
 
-	var domain = INTERVALS(1)(parts);
-
-	var curve = MAP(BEZIER(selector)(controlPoints))(domain);
-	var curve = COLOR(color)(curve);
+	var curve = MAP(BEZIER(selector)(controlPoints))(INTERVALS(1)(parts));
+	curve = COLOR(color)(curve);
 
 	if ( drawControlPoints === "yes" ) {
 		var points = getModelControlPoints(controlPoints);
@@ -65,28 +61,37 @@ function drawBezier(controlPoints, color, drawPolyline, drawControlPoints) {
 
 function drawCubicalCardinalSpline(controlPoints, parts, color, selector) {
 
-	var parts = parts || 10;
 	var color = color || [0,0,0,1];
-	var selector = selector || S0;
+	
+	var selector = this.SELECTOR || S0;
+	var parts = this.PARTS || 10;
 
-	var domain = INTERVALS(1)(parts);
+	var struct =STRUCT([]);
 
-	var points = getModelControlPoints(controlPoints);
-	var polyline = POLYLINE(controlPoints);
+	if ( drawControlPoints === "yes" ) {
+		var points = getModelControlPoints(controlPoints);
+		struct = STRUCT([points]);
+	}
+
+	if ( drawPolyline === "yes" ) {
+		var polyline = POLYLINE(controlPoints);
+		struct = STRUCT([struct, polyline]);
+	}
 
 	var firstElem = controlPoints.shift();
 	var lastElem = controlPoints.pop();
 	controlPoints.unshift(firstElem,firstElem);
 	controlPoints.push(lastElem,lastElem);
 
-	var curve = SPLINE(CUBIC_CARDINAL(domain))(controlPoints);
-	var curve = COLOR(color)(curve);
+	var curve = SPLINE(CUBIC_CARDINAL(INTERVALS(1)(parts)))(controlPoints);
+	curve = COLOR(color)(curve);
 
-	var struct = STRUCT([curve, points, polyline]);
+	struct = STRUCT([curve, struct]);
 
 	return DRAW(struct);
 
 }
+
 
 function drawCubicalUbspline(controlPoints, parts, color, selector) {
 
