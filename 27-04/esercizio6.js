@@ -19,7 +19,7 @@
 
 // duplicare punto iniziale e punto finale.
 
-var domain = INTERVALS(1)(30);
+var domain = INTERVALS(1)(50);
 
 var controlpoints = [[-3,6],[-3,6],[-4,2],[-3,-1],[-1,1],[1.5,1.5],[3,4],[5,5],
 		[7,2],[6,-2],[2,-3],[2,-3]];
@@ -28,7 +28,8 @@ var drawControlPoints = SIMPLICIAL_COMPLEX(controlpoints)([[0],[1],[2],[3],[4],[
 
 DRAW(drawControlPoints);
 
-var curve = SPLINE(CUBIC_CARDINAL(domain))(controlpoints);
+var curve = SPLINE(CUBIC_UBSPLINE(domain))(controlpoints);
 
-DRAW(curve);
+var coloredCurve = COLOR([0.2,0.4,0.7,0.8])(curve);
 
+DRAW(coloredCurve);
