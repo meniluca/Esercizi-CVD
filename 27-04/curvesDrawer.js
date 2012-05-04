@@ -6,8 +6,8 @@
 	Draws curves. Each curve has its function.
 	Each function can draw the respective curve, and optionally
 	its control points and a polyline join them
-
 */
+
 
 /*
 	PARTS: number used to divide the segment which join curve's points
@@ -16,13 +16,14 @@
 var PARTS;
 var SELECTOR;
 
+
 /*
 	FUNCTION: drawCubicHermite
-	Draw a cubic hermite curve, takes an array of control points which first two elements are points
-	and second two are vectors.
+	Draw and returns a cubic hermite curve, takes an array of control points which first two elements are points
+	and second two are vectors. Optionally can color the curve, drawing control points and/or a polyline joining them.
 
 	USAGE:
-	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]]); //draws a black cubic hermite curve
+	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]]); //draws a black curve
 	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
 	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
 	drawCubicHermite([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
@@ -56,10 +57,11 @@ function drawCubicHermiteCurve(controlPoints, color, drawPolyline, drawControlPo
 
 /*
 	FUNCTION: drawBezierCurve
-	Draw a Bezier curve, takes an array of control points.
+	Draw and returns a Bezier curve, takes an array of control points.
+	Optionally can color the curve, drawing control points and/or a polyline joining them.
 
 	USAGE:
-	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]]); //draws a black cubic hermite curve
+	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]]); //draws a black curve
 	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
 	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
 	drawBezierCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
@@ -91,7 +93,20 @@ function drawBezierCurve(controlPoints, color, drawPolyline, drawControlPoints) 
 }
 
 
-function drawCubicalCardinalCurve(controlPoints, color, drawPolyline, drawControlPoints) {
+/*
+	FUNCTION: drawCubicCardinalCurve
+	Draw and returns a cubic cardinal curve, takes an array of control points.
+	Optionally can color the curve, drawing control points and/or a polyline joining them.
+
+	USAGE:
+	drawCubicCardinalCurve([[0,0],[3,1],[1,1],[1,2]]); //draws a black curve
+	drawCubicCardinalCurve([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
+	drawCubicCardinalCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
+	drawCubicCardinalCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
+	drawCubicCardinalCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes, yes); //draws a red curve with polyline and control points
+
+*/
+function drawCubicCardinalCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
 	var color = color || [0,0,0,1];
 	
@@ -125,7 +140,20 @@ function drawCubicalCardinalCurve(controlPoints, color, drawPolyline, drawContro
 }
 
 
-function drawCubicalUbsplineCurve(controlPoints, color, drawPolyline, drawControlPoints) {
+/*
+	FUNCTION: drawCubicUbsplineCurve
+	Draw and returns a cubic cardinal curve, takes an array of control points.
+	Optionally can color the curve, drawing control points and/or a polyline joining them.
+
+	USAGE:
+	drawCubicUbsplineCurve([[0,0],[3,1],[1,1],[1,2]]); //draws a black curve
+	drawCubicUbsplineCurve([[0,0],[3,1],[1,1],[1,2]], [0,0,0,1]); //same as before
+	drawCubicUbsplineCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes); //draws a red curve with polyline
+	drawCubicUbsplineCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], no, yes); //draws a red curve with control points
+	drawCubicUbsplineCurve([[0,0],[3,1],[1,1],[1,2]], [1,0,0,1], yes, yes); //draws a red curve with polyline and control points
+
+*/
+function drawCubicUbsplineCurve(controlPoints, color, drawPolyline, drawControlPoints) {
 
 	var color = color || [0,0,0,1];
 	
@@ -159,6 +187,10 @@ function drawCubicalUbsplineCurve(controlPoints, color, drawPolyline, drawContro
 }
 
 
+/*
+	FUNCTION: getModelControlPoints
+	Return a model of simplicial complex representing control points given by parameter.
+*/
 function getModelControlPoints(controlPoints) {
 
 	var cells = [];
