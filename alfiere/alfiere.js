@@ -1,13 +1,5 @@
 // BISHOP
 
-function POLYPOINT(points) {
-	return SIMPLICIAL_COMPLEX(points)(
-		points.map( function (p,i) {
-			return [i];
-		}
-		));
-}
-
 // dominio rotazione
 var domain = DOMAIN([[0,1],[0,2*PI]])([50,50]);
 
@@ -67,12 +59,46 @@ var part06 = MAP(mapping)(domain);
 
 DRAW(part06);
 
-//DRAW(POLYPOINT(ctrlPoints));
-//DRAW(POLYLINE(ctrlPoints));
-//DRAW(POLYLINE([[1.1,0,6],[1.1,0,6.7]]));
-/*
-var domain1 = INTERVALS(1)(30);
-var c2 = BEZIER(S0)(ctrlPoints);
-var wing = MAP(c2)(domain1);
-DRAW(wing); 
-*/
+// part07 con "taglio"
+domainDetail = DOMAIN([[0,1],[0,2*PI]])([60,60]);
+ctrlPoints = [[1,0,6.7],[1.9,0,7.7],[0.5,0,8.7],[0.4,0,9.5]];
+profile = BEZIER(S0)(ctrlPoints);
+mapping = ROTATIONAL_SURFACE(profile);
+var part07 = MAP(mapping)(domainDetail);
+
+var cut = function (p) {
+
+	var x = p[0];
+	var y = p[1];
+	var z = p[2];
+
+	if ( x>0 && x<0.85 && z>(1.2+6.7) && z<(2.4+6.7)){
+		if (z<=(8.1-x))
+			return p;
+		else if ((x+1+6.7)>=z)
+			return p;
+		else if ((x+1.4+6.7)<=z)
+			return p;
+		else if ((x+1.2+6.7)>=z && x>=0.2)
+			return [0.2,y,1.2+6.7];
+		else if ((x+1.2+6.7)<z && z>=1.4+6.7)
+			return [0,y,1.4+6.7];
+		else
+			return [z-1.4-6.7,y,x+1+6.7];
+	}
+
+	return p;
+
+}
+
+part07 = MAP(cut)(part07);
+
+DRAW(part07);
+
+// part08
+ctrlPoints = [[0.4,0,9.5],[0.7,0,9.7],[0.65,0,10.15],[0,0,10.18]];
+profile = BEZIER(S0)(ctrlPoints);
+mapping = ROTATIONAL_SURFACE(profile);
+var part08 = MAP(mapping)(domain);
+
+DRAW(part08);
