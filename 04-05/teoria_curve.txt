@@ -1,4 +1,4 @@
-/*
+﻿/*
 la cubic hermit ritorna l'immagine della curva, un array di funzioni
 per le superfici ce ne sono di più
 
@@ -100,7 +100,6 @@ DRAW(wing);
 */
 
 //non uniform B spline
-
 //NUBS(S0)(grado)(nodi)(controlli)
 
 var domain1 = INTERVALS(1)(100)
